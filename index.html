@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      let contentDictionary = {
+        "Shwartz's Deli": "Fresh food in Montreal.",
+        "Dowtown Montreal": "The heart of Montreal. Where alot of shopping occurs and is very busy.",
+        "Cemetary": "Where we bury our loved ones after they pass away.",
+        "Jean Drapeau Parc": "Beautiful park in Montreal.",
+        "Old Port": "Nice scenery over the water.",
+        "Costco": "Where we buy food and items in bulk."
+      }
+
+      window.onload = function () {
+        const originalWidth = 1720;
+        const image = document.querySelector('img[usemap="#image-map"]');
+        const areas = document.querySelectorAll('map[name="image-map"] area');
+    
+        const originalCoords = Array.from(areas).map((area) =>
+          area.getAttribute('coords')
+        );
+    
+        function resizeAreas() {
+          const currentWidth = image.offsetWidth;
+          const scale = currentWidth / originalWidth;
+    
+          areas.forEach((area, index) => {
+            const coords = originalCoords[index]
+              .split(',')
+              .map((coord) => Math.round(coord * scale));
+            area.setAttribute('coords', coords.join(','));
+          });
+        }
+    
+        // Function to run when an area is hovered over
+        function onAreaHover() {
+          const areaTitle = event.target.getAttribute('title');
+
+          let titleElement = document.getElementById("areaTitle");
+          let descriptionElement = document.getElementById("areaDescription");
+
+          titleElement.innerHTML = areaTitle;
+          descriptionElement.innerHTML = contentDictionary[areaTitle];
+        }
+    
+        areas.forEach((area) => {
+          area.addEventListener('mouseenter', onAreaHover);
+        });
+    
+        window.addEventListener('resize', resizeAreas);
+        resizeAreas();
+      };
+    </script>
+    
+  </head>
+  <body class="">
+    <nav
+      class="flex text-3xl font-bold justify-between bg-black text-white px-10 h-12 items-center"
+    >
+      <div>Home</div>
+      <div>January 30th 2024</div>
+      <div>LaSalle College</div>
+    </nav>
+    <main class="flex flex-col lg:flex-row items-center lg:items-start px-10">
+      <div class="lg:w-1/3 pt-10 mb-10 lg:mb-0">
+        <div class="text-bold text-3xl font-bold">Assignment 1</div>
+        <div id="areaTitle" class="text-2xl font-semibold">Downtown Montreal</div>
+        <div id="areaDescription">The heart of Montreal. Where alot of shopping occurs and is very busy.</div>
+      </div>
+      <div class="lg:w-2/3">
+        <img src="image.png" usemap="#image-map" class="px-0 py-0" />
+        <map name="image-map" class="px-0 py-0">
+          <area
+            alt=""
+            title="Shwartz's Deli"
+            href=""
+            coords="861,434,941,519"
+            shape="rect"
+          />
+          <area
+            alt=""
+            title="Cemetary"
+            href=""
+            coords="760,480,843,572"
+            shape="rect"
+          />
+          <area
+            alt=""
+            title="Downtown Montreal"
+            href=""
+            coords="904,527,1001,611"
+            shape="rect"
+          />
+          <area
+            alt=""
+            title="Old Port"
+            href=""
+            coords="1004,443,1068,549"
+            shape="rect"
+          />
+          <area
+            alt=""
+            title="Jean Drapeau Parc"
+            href=""
+            coords="1069,437,1120,542"
+            shape="rect"
+          />
+          <area
+            alt=""
+            title="Costco"
+            href=""
+            coords="962,630,1054,705"
+            shape="rect"
+          />
+        </map>
+      </div>
+    </main>
+    <footer
+      class="flex text-3xl font-bold bg-black text-white px-10 h-12 items-center fixed bottom-0 w-full"
+    >
+      Made by Rafi Shariff
+    </footer>
+  </body>
+</html>
